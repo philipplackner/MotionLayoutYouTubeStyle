@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<MotionScene xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:motion="http://schemas.android.com/apk/res-auto">
+
+    <Transition
+        motion:constraintSetEnd="@+id/end"
+        motion:constraintSetStart="@+id/start"
+        motion:motionInterpolator="easeInOut">
+
+        <OnSwipe
+            motion:touchAnchorId="@+id/clImageContainer"
+            motion:touchAnchorSide="bottom"
+            motion:dragDirection="dragUp" />
+
+        <!-- state when dragged up -->
+        <ConstraintSet android:id="@id/start">
+
+            <Constraint
+                android:id="@id/clImageContainer"
+                android:layout_width="0dp"
+                android:layout_height="240dp"
+                motion:layout_constraintTop_toTopOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintEnd_toEndOf="parent"  />
+
+            <Constraint
+                android:id="@id/ivPreviewImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                motion:layout_constraintTop_toTopOf="@id/clImageContainer"
+                motion:layout_constraintBottom_toBottomOf="@id/clImageContainer"
+                motion:layout_constraintStart_toStartOf="@id/clImageContainer"
+                motion:layout_constraintEnd_toEndOf="@id/clImageContainer" />
+
+            <Constraint
+                android:id="@id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginStart="16dp"
+                android:ellipsize="none"
+                motion:layout_constraintTop_toBottomOf="@id/clImageContainer"
+                motion:layout_constraintStart_toStartOf="@id/clImageContainer" />
+
+            <Constraint android:id="@id/ivPlay" >
+                <PropertySet motion:alpha="0" />
+            </Constraint>
+
+            <Constraint android:id="@id/ivClear" >
+                <PropertySet motion:alpha="0" />
+            </Constraint>
+        </ConstraintSet>
+
+        <!-- state when dragged down -->
+        <ConstraintSet android:id="@id/end">
+
+            <Constraint
+                android:id="@id/clImageContainer"
+                android:layout_width="0dp"
+                android:layout_height="54dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                motion:layout_constraintEnd_toEndOf="parent"
+                motion:layout_constraintStart_toStartOf="parent"
+                motion:layout_constraintBottom_toBottomOf="parent"  />
+
+            <Constraint
+                android:id="@id/ivPreviewImage"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                motion:layout_constraintTop_toTopOf="@id/clImageContainer"
+                motion:layout_constraintBottom_toBottomOf="@id/clImageContainer"
+                motion:layout_constraintStart_toStartOf="@id/clImageContainer"
+                motion:layout_constraintDimensionRatio="H,1:2.5" />
+
+            <Constraint
+                android:id="@id/tvTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:ellipsize="end"
+                motion:layout_constraintTop_toTopOf="@id/ivPreviewImage"
+                motion:layout_constraintBottom_toBottomOf="@id/ivPreviewImage"
+                motion:layout_constraintStart_toEndOf="@id/ivPreviewImage" />
+
+            <Constraint android:id="@id/ivPlay" >
+                <PropertySet motion:alpha="1.0" />
+            </Constraint>
+
+            <Constraint android:id="@id/ivClear" >
+                <PropertySet motion:alpha="1.0" />
+            </Constraint>
+        </ConstraintSet>
+
+        <KeyFrameSet>
+            <!-- these two make sure that the image width reduces when dragging down -->
+            <KeyPosition
+                motion:motionTarget="@id/ivPreviewImage"
+                motion:framePosition="60"
+                motion:percentWidth="0"
+                motion:percentX="0"
+                motion:curveFit="linear" />
+            <KeyPosition
+                motion:motionTarget="@id/clImageContainer"
+                motion:framePosition="60"
+                motion:percentWidth="0"
+                motion:curveFit="linear" />
+
+            <!-- these two make sure that the play and close image get invisible when dragging up -->
+            <KeyAttribute
+                android:alpha="0.0"
+                motion:framePosition="0"
+                motion:motionTarget="@id/ivClear" />
+
+            <KeyAttribute
+                android:alpha="0.0"
+                motion:framePosition="0"
+                motion:motionTarget="@id/ivPlay" />
+        </KeyFrameSet>
+    </Transition>
+</MotionScene>
